@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS pedro_db;
-USE pedro_db;
+CREATE DATABASE IF NOT EXISTS startup_db;
+USE startup_db;
 
 CREATE TABLE IF NOT EXISTS contato (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS contato (
     datahora DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Inserts iniciais (opcional)
 INSERT INTO contato (nome, email, mensagem) VALUES
 ('João Silva', 'joao@email.com', 'Mensagem de teste 1'),
 ('Maria Souza', 'maria@email.com', 'Mensagem de teste 2');
+
