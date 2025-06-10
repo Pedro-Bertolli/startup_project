@@ -1,53 +1,59 @@
-services:
+services: 
+  # Servidor Web Apache + PHP
   web:
     build: .
-    container_name: startup_web
-    ports:
+    container_name: pedro_web
+    ports: 
       - "80:80"
     volumes:
       - ./app:/var/www/html
     depends_on:
       - mysql
     networks:
-      - startup_network
+      - pedro_network
     restart: unless-stopped
 
+  # Banco de Dados MySQL
   mysql:
     image: mysql:8.0
-    container_name: startup_mysql
+    container_name: pedro_mysql
     environment:
       MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: startup_db
-      MYSQL_USER: startup_user
-      MYSQL_PASSWORD: startup123
+      MYSQL_DATABASE: pedro_db
+      MYSQL_USER: pedro_user
+      MYSQL_PASSWORD: pedro123
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pedro_data:/var/lib/mysql
     networks:
-      - startup_network
+      - pedro_network
     restart: unless-stopped
 
+  # phpMyAdmin para gerenciamento do banco de dados
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: startup_phpmyadmin
+    container_name: pedro_phpmyadmin
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
       PMA_USER: root
       PMA_PASSWORD: root123
+      MYSQL_ROOT_PASSWORD: root123
     ports:
       - "8080:80"
     depends_on:
       - mysql
     networks:
-      - startup_network
+      - pedro_network
     restart: unless-stopped
 
+# Volumes para persistência de dados
 volumes:
-  mysql_data:
+  pedro_data:
 
+# Rede interna para comunicação entre os containers
 networks:
-  startup_network:
+  pedro_network:
     driver: bridge
+
